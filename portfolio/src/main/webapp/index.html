@@ -7,27 +7,34 @@
     <script src="script.js"></script>
   </head>
   <body>
+    <div id="menu">
+      <img src="/images/bgimage.png" id="menuimage">
+      <h1 id="name">Theodora-Mara Pîslar</h1>
+      <div id="facts"> 
+        <p>Click here to get a random fact about me:</p>
+        <button onclick="addRandomFact()">Fact</button>
+        <div id="fact-container"></div>
+      </div>
+      <div id="links">
+        <p>You can find me here:
+          <ul>
+            <li>
+              <a href=
+                  "https://www.linkedin.com/in/theodora-mara-pislar-983117196/"
+                  target="_blank">LinkedIn</a> </li> 
+            <li>
+              <a href=
+                  "https://github.com/maraPislar"
+                  target="_blank">GitHub</a> </li>
+          </ul>
+        </p>
+      </div>
+    </div>
     <div id="content">
-      <h1 style = "text-align : center;">My Portfolio</h1>
-      <h2 style = "text-align : center;">Theodora-Mara Pîslar</h2>
-      <p>You can find me here:
-        <ul>
-         <li> <a href=
-         "https://www.linkedin.com/in/theodora-mara-pislar-983117196/"
-         target="_blank"> 
-          LinkedIn</a> </li> 
-         <li> <a href="https://github.com/maraPislar"
-         target="_blank">
-          GitHub</a> </li>
-        </ul>
-      </p>
       <p>
           Keep scrolling to find more!
       </p>
       <img src="/images/me.jpeg">
-      <p>Click here to get a random fact about me:</p>
-      <button onclick="addRandomFact()">Fact</button>
-      <div id="fact-container"></div>
       <h3>Background</h3>
       <h4>Residence</h4>
       <p>
@@ -47,18 +54,18 @@
       </p>
       <h4>Education</h4>
       <p>
-          <ul>
-              <li>First kind of education was from my parents.</li>
-              <li>2015-2019: "Eudoxiu Hurmuzachi" College, Radauti;
-                  I followed the Mathematics and Informatics profile. </li>
-              <li>2019-Present: University of Southampton, United Kingdom;
-                  I am enrolled in a BSc in Computer Science course.
-          </ul>
+        <ul>
+          <li>First kind of education was from my parents.</li>
+          <li>2015-2019: "Eudoxiu Hurmuzachi" College, Radauti;
+              I followed the Mathematics and Informatics profile.</li>
+          <li>2019-Present: University of Southampton, United Kingdom;
+              I am enrolled in a BSc in Computer Science course.
+        </ul>
       </p>
       <h3>Projects</h3>
       <h4>Tetris</h4>
       <p>I created the game Tetris using HTML5 and JavaScript. 
-          The project wa screated for knowledge purposes as well as for
+          The project was created for knowledge purposes as well as for
           others amusament.
       </p>
       <h4>School Simulation</h4>
@@ -70,8 +77,8 @@
           Teachers have job specifications that permit them to teach a course.
           Students can get certificates when they complete a course and can't
           enroll in courses where they already have certificates. 
-          When a students has certificates for all courses, he is no 
-          longer a student.
+          When a student has certificates for all the courses, he
+          finishes the school.
           The aim is for all the students to finish all courses.
           Programming language used: Java.
       </p>
