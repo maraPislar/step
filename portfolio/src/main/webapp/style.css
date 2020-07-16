@@ -1,46 +1,65 @@
 #menu {
+    color: white;
     position: relative;
     text-align: center;
-    color: white;
 }
 
 #menuimage {
-    width: 100%;
     height: 800px;
+    width: 100%;
 }
 
 #name {
-    font-size: 600%;
-    position: absolute;
-    top: 100px;
-    left: 60px;
-    text-shadow: 2px 2px 5px black;
     color: white;
+    font-size: 600%;
+    left: 60px;
+    position: absolute;
+    text-shadow: 2px 2px 5px black;
+    top: 100px;
 }
 
-#facts {
-    font-size: 300%;
-    color:white;
-    position: absolute;
-    top: 300px;
+#fact-button {
+    background-color: turquoise;
+    border-radius: 2em;
+    box-sizing: border-box;
+    color: white;
+    display: inline-block;
+    font-size: 150%;
+    font-weight: 300;
     left: 60px;
+    margin: 0 0.3em 0.3em 0;
+    padding: 0.3em 1.2em;
+    position: absolute;
+    text-align: center;
+    text-shadow: 2px 2px 5px black;
+    top: 350px;
+    transition: all 0.2s;
+}
+
+#fact-button:hover {
+    background-color: darkturquoise;
 }
 
 #links {
-    font-size: 100%;
+    bottom: 150px;
     color: cadetblue;
+    font-size: 100%;
     position: absolute;
-    bottom: 100px;
     right: 16px;
 }
 
 #content {
-  position: relative;
   margin-left: auto;
   margin-right: auto;
+  position: relative;
   width: 800px;
 }
 
 #fact-container {
+  font-size: 200%;
+  left: 60px;
   margin-top: 20px;
+  position: absolute;
+  text-shadow: 2px 2px 5px black;
+  top: 400px;
 }
