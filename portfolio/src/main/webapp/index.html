@@ -6,20 +6,33 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body>
+  <body id="home-page">
     <div class="sidenav">
       <a href="index.html">Home</a>
       <a href="background.html">Background</a>
       <a href="projects.html">Projects</a>
       <a href="personal.html">Personal</a>
-      <a href="">Contact</a>
+      <a href=
+            "https://www.linkedin.com/in/theodora-mara-pislar-983117196/"
+            target="_blank">LinkedIn
+      </a>
+      <a href="https://github.com/maraPislar" target="_blank">Github</a>
     </div>
 
     <div class="main">
-      <h2 class="name">Theodora-Mara Pislar</h2>
+      <img src="/images/bg2.jpg" class="home-image">
+      <img src="/images/top-cloud.jpg" class="top-cloud">
+      <a href="gallery.html" class="gallery">Gallery</a>
+      <p class="intro">
+          My name is Theodora-Mara Pislar, I am  a STEP Intern
+          at Google and I learn new things everyday. Have a seat, 
+          explore the menu, and you'll find more about me.
+      </p>
       <button onclick="addRandomFact()" 
           class="fact-button">Click for random fact</button>
-      <div class="fact-container">Explore the menu and you will find more :)</div>
+      <div id="fact-container">Explore the menu and you will find more :)</div>
+      <img src="/images/bottom-cloud.jpg" id="bottom-cloud">
+      <a href="talent.html" class="gallery" id="talent">Secret Talent</a>
     </div>
   </body>
 </html>
