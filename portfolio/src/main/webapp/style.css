@@ -1,8 +1,46 @@
-body {
+#home-page {
     font-family: "Lato", sans-serif;
+    /*background-image: url("/images/bg.jpg");*/
 }
 
-img {
+.home-image {
+    bottom: 0px;
+    height: 100%;
+    left: 800px;
+    position: absolute;
+    top: 0px;
+    width: 700px;
+}
+
+.intro {
+    font-size: 170%;
+    left: 700px;
+    position: relative;
+    text-align: justify;
+    top: 160px;
+    width: 500px;
+}
+
+.top-cloud {
+    height: 320px;
+    position: absolute;
+    top: 30px;
+    width: 650px;    
+}
+
+#bottom-cloud {
+    height: 320px;
+    position: absolute;
+    top: 360px;
+    width: 650px;
+}
+
+#sub-page {
+    font-family: "Lato", sans-serif;
+    font-weight: 100px;
+}
+
+.slideshow-image {
     vertical-align: middle;
     width:100%;
     top: 100px;
@@ -30,7 +68,7 @@ img {
 }
 
 .sidenav a:hover {
-  color: #f1f1f1;
+    color: #f1f1f1;
 }
 
 /* Applies to the text outside the side bar */
@@ -65,7 +103,7 @@ img {
     display: inline-block;
     font-size: 100%;
     font-weight: 200;
-    left: 40%;
+    left: 850px;
     margin: 0 0.3em 0.3em 0;
     padding: 0.3em 1.2em;
     position: relative;
@@ -75,18 +113,36 @@ img {
     transition: all 0.2s;
 }
 
-.fact-button:hover {
-    background-color: white;
-    color: black;
+.gallery {
+    color: white;
+    font-size: 300%;
+    left: 450px;
+    position: absolute;
+    text-decoration: none;
+    top: 160px;
 }
 
-.fact-container {
-    font-size: 200%;
-    margin-top: 20px;
-    position: relative;
-    text-align: center;
+.gallery:hover {
+    color:white;
     text-shadow: 2px 2px 5px black;
-    top: 300px;
+}
+
+#talent {
+    top:500px;
+    left:400px;
+}
+
+#fact-button:hover {
+    color: black;
+    background-color: transparent;
+}
+
+#fact-container {
+    font-size: 150%;
+    left: 710px;
+    position: relative;
+    text-shadow: 2px 2px 5px black;
+    top: 250px;
 }
 
 /* On all titles except of home page */
