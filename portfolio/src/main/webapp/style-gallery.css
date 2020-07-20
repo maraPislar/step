@@ -3,6 +3,7 @@
 }
 
 body {
+    background-image:  url("/images/bg.jpg");
     font-family: "Lato", sans-serif;
 }
 
