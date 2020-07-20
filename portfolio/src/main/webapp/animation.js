@@ -1,25 +1,25 @@
-let p;
+let particle;
 
 function setUp() {
     createCanvas(600, 400);
-    p = new Particle();
+    particle = new Particle();
 }
 
 function draw() {
     background(0);
-    p.show();
+    particle.show();
 }
 
 class Particle {
 
     constructor() {
-        this.x = 200;
+        this.x = 300;
         this.y = 380;
     }
 
     show() {
         stroke(255);
-        fill(255, 0)
+        fill(255, 10);
         ellipse(this.x, this.y, 16);
     }
 }
