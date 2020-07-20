@@ -16,52 +16,64 @@
  * Adds a random fact to the page.
  */
 function addRandomFact() {
-  const facts =
-    [
-        'I am Romanian.', 
-        'Guitar and piano are some instruments that I play.', 
-        'I am really tall (180 cm).', 
-        'Friends call me by my middle name.',
-        'I have a dog called Zorro.',
-        'I am a STEP intern at Google.',
-        'I have two sisters, Sofia and Miruna.'
-    ];
+    const facts =
+        [
+            'I am Romanian.', 
+            'Guitar and piano are some instruments that I play.', 
+            'I am really tall (180 cm).', 
+            'Friends call me by my middle name.',
+            'I have a dog called Zorro.',
+            'I am a STEP intern at Google.',
+            'I have two sisters, Sofia and Miruna.'
+        ];
 
-  // Pick a random fact.
-  const fact = facts[Math.floor(Math.random() * facts.length)];
+    // Pick a random fact.
+    const fact = facts[Math.floor(Math.random() * facts.length)];
 
-  // Add it to the page.
-  const factContainer = document.getElementById('fact-container');
-  factContainer.innerText = fact;
+    // Add it to the page.
+    const factContainer = document.getElementById('fact-container');
+    factContainer.innerText = fact;
 }
 
-var slideIndex = 1;
-showSlides(slideIndex);
+var slideIndex = 0;
+var slides = document.getElementsByClassName("mySlides");
 
-function plusSlides(n) {
-    showSlides(slideIndex += n);
-}
-
-function currentSlide(n) {
-    showSlides(slideIndex = n);
-}
-
-function showSlides(n) {
-    var i;
-    var slides = document.getElementsByClassName("mySlides");
-    var dots = document.getElementsByClassName("dot");
-    if (n > slides.length) {
-        slideIndex = 1
-    }    
-    if (n < 1) {
-        slideIndex = slides.length
+function showSlides() {
+    if(hasSlides()) {
+        hideAllSlides();
+        checkLastImage();
+        displayOneSlide();
+        goToNextSlide();
+        setTimeout(showSlides, 3000); // Change image every 3 seconds
+    } else {
+        alert("There are no images!");
     }
-    for (i = 0; i < slides.length; i++) {
+}
+
+function hideAllSlides() {
+    for (var i = 0; i < slides.length; i++) {
         slides[i].style.display = "none";  
     }
-    for (i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace(" active", "");
+}
+
+function checkLastImage() {
+    if (slideIndex > slides.length - 1) {
+        slideIndex = 0
+  }
+}
+
+function displayOneSlide() {
+    slides[slideIndex].style.display = "block";
+}
+
+function goToNextSlide() {
+    slideIndex++;
+}
+
+function hasSlides() {
+    if(slides === undefined || slides.length == 0) {
+        return false;
     }
-    slides[slideIndex-1].style.display = "block";  
-    dots[slideIndex-1].className += " active";
+
+    return true;
 }
