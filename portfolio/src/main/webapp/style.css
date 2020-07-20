@@ -1,6 +1,5 @@
 #home-page {
     font-family: "Lato", sans-serif;
-    /*background-image: url("/images/bg.jpg");*/
 }
 
 .home-image {
@@ -40,12 +39,6 @@
     font-weight: 100px;
 }
 
-.slideshow-image {
-    vertical-align: middle;
-    width:100%;
-    top: 100px;
-}
-
 /* On the side navigation bar */
 .sidenav {
     background-color: #111;
@@ -74,14 +67,6 @@
 /* Applies to the text outside the side bar */
 .main {
     margin-left: 200px; /* Same as the width of the sidenav */
-}
-
-/* On the name from the home page */
-.name {
-    font-size: 70px;
-    position: relative;
-    text-align: center;
-    top: 150px;
 }
 
 /* On the side bar */
@@ -113,6 +98,11 @@
     transition: all 0.2s;
 }
 
+.fact-button:hover {
+    color: black;
+    background-color: transparent;
+}
+
 .gallery {
     color: white;
     font-size: 300%;
@@ -128,13 +118,8 @@
 }
 
 #talent {
-    top:500px;
-    left:400px;
-}
-
-#fact-button:hover {
-    color: black;
-    background-color: transparent;
+    top: 500px;
+    left: 400px;
 }
 
 #fact-container {
@@ -147,117 +132,23 @@
 
 /* On all titles except of home page */
 .title {
-    font-size: 50px;
+    font-size: 20px;
     position: relative;
-    text-align: center;
     text-shadow: 2px 2px 5px black;
-    top: 20px;
 }
-
+  
 .content {
-    left: 50%;
-    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
     text-align: justify;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    top: 50px;
+    bottom: 100px;
     width: 500px;
 }
 
-* {
-    box-sizing: border-box
-}
-
-/* for the slide show */
-.mySlides {
-    display: none;
-}
-
-.slideshow-container {
-    margin: auto;
-    max-width: 1000px;
-    position: relative;
-}
-
-/* On next and previous buttons */
-.prev, .next {
-    border-radius: 0 3px 3px 0;
-    color: white;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: -22px;
-    padding: 16px;
-    position: absolute;
-    top: 50%;
-    transition: 0.6s ease;
-    user-select: none;
-    width: auto;
-}
-
-.next {
-    border-radius: 3px 0 0 3px;
-    right: 0;
-}
-
-.prev:hover, .next:hover {
-    background-color: rgba(0,0,0,0.8);
-}
-
-/* The text on the pictures */
-.text {
-    bottom: 8px;
-    color: #f2f2f2;
-    font-size: 15px;
-    padding: 8px 12px;
-    position: absolute;
-    text-align: center;
+.some-image {
+    vertical-align: middle;
     width: 100%;
-}
-
-/* Number of picture in slide show */
-.numbertext {
-    color: #f2f2f2;
-    font-size: 12px;
-    padding: 8px 12px;
-    position: absolute;
-    top: 0;
-}
-
-/* For the dots below the pictures */
-.dot {
-    background-color: #bbb;
-    border-radius: 50%;
-    cursor: pointer;
-    display: inline-block;
-    height: 15px;
-    margin: 0 2px;
-    transition: white 0.6s ease;
-    width: 15px;
-}
-
-.active, .dot:hover {
-    background-color: #717171;
-}
-
-/* Fading animation */
-.fade {
-    animation-duration: 1.5s;
-    animation-name: fade;
-    -webkit-animation-name: fade;
-    -webkit-animation-duration: 1.5s;
-}
-
-@-webkit-keyframes fade {
-    from {opacity: .4} 
-    to {opacity: 1}
-}
-
-@keyframes fade {
-    from {opacity: .4} 
-    to {opacity: 1}
-}
-
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
-    .prev, .next,.text {font-size: 11px}
+    top: 100px;
 }
