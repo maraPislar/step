@@ -1,25 +1,44 @@
-let particle;
+particles = [];
 
-function setUp() {
-    createCanvas(600, 400);
-    particle = new Particle();
+function setup() {
+    createCanvas(screen.width, screen.height);
 }
 
 function draw() {
-    background(0);
-    particle.show();
+    createParticles();
+    moveParticles();
+}
+
+function createParticles() {
+    for (let i = 0; i < 5; i++) {
+        let particle = new Particle();
+        particles.push(particle);
+    }
+}
+
+function moveParticles() {
+    for (let i = particles.length - 1; i >= 0; i--) {
+        particles[i].update();
+        particles[i].show();
+    }
 }
 
 class Particle {
-
     constructor() {
-        this.x = 300;
-        this.y = 380;
+        this.x = screen.width / 2;
+        this.y = screen.height / 2;
+        this.vx = random(-2*Math.PI, 2*Math.PI);
+        this.vy = random(-2*Math.PI, 2*Math.PI);
+    }
+
+    update() {
+        this.x += this.vx;
+        this.y += this.vy;
     }
 
     show() {
         stroke(255);
-        fill(255, 10);
-        ellipse(this.x, this.y, 16);
+        fill(0);
+        ellipse(this.x, this.y, 10);
     }
 }
