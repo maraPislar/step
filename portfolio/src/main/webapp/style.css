@@ -1,5 +1,9 @@
 #home-page {
+    background-image:  url("/images/bg.jpg");
     font-family: "Lato", sans-serif;
+    margin: 0; 
+    height: 100%; 
+    overflow: hidden
 }
 
 .home-image {
@@ -41,7 +45,7 @@
 
 /* On the side navigation bar */
 .sidenav {
-    background-color: #111;
+    background-image: url("/images/bg.jpg");
     height: 100%;
     left: 0;
     overflow-x: hidden;
@@ -117,7 +121,7 @@
     text-shadow: 2px 2px 5px black;
 }
 
-#talent {
+#tool {
     top: 500px;
     left: 400px;
 }
@@ -151,4 +155,8 @@
     vertical-align: middle;
     width: 100%;
     top: 100px;
+}
+
+#animation {
+    background-image:  url("/images/bg.jpg");
 }
