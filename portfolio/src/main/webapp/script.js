@@ -39,7 +39,7 @@ var slideIndex = 0;
 var slides = document.getElementsByClassName("mySlides");
 
 function showSlides() {
-    if(hasSlides()) {
+    if (hasSlides()) {
         hideAllSlides();
         checkLastImage();
         displayOneSlide();
@@ -58,7 +58,7 @@ function hideAllSlides() {
 
 function checkLastImage() {
     if (slideIndex > slides.length - 1) {
-        slideIndex = 0
+        slideIndex = 0;
   }
 }
 
@@ -71,15 +71,15 @@ function goToNextSlide() {
 }
 
 function hasSlides() {
-    if(slides === undefined || slides.length == 0) {
-        return false;
-    }
-
-    return true;
+    return !(slides === undefined || slides.length == 0);
 }
 
-function getGreeting() {
-  fetch("/data").then(response => response.text()).then((greeting) => {
-    document.getElementById('greeting-container').innerText = greeting;
-  });
+function getMessages() {
+  fetch("/data")  // sends a request to /data
+    .then((response) => {
+        response.json()
+    }) // parses the response as JSON
+    .then((message) => { // now we can reference the fields in message
+        document.getElementById("messages-container").innerText = message;
+    });
 }

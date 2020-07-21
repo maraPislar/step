@@ -147,7 +147,7 @@
     position: relative;
     text-align: justify;
     top: 50px;
-    bottom: 100px;
+    bottom: 300px;
     width: 500px;
 }
 
@@ -161,6 +161,9 @@
     background-image:  url("/images/bg.jpg");
 }
 
-#greeting-container {
+#messages-container {
   margin-top: 50px;
+  font-size: 300%;
+  color: white;
+  text-shadow: 2px 2px 5px black;
 }
