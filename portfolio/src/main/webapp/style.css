@@ -160,3 +160,7 @@
 #animation {
     background-image:  url("/images/bg.jpg");
 }
+
+#greeting-container {
+  margin-top: 50px;
+}
