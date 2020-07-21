@@ -1,4 +1,4 @@
-particles = [];
+let particles = [];
 
 function setup() {
     createCanvas(screen.width, screen.height);
@@ -27,8 +27,8 @@ class Particle {
     constructor() {
         this.x = screen.width / 2;
         this.y = screen.height / 2;
-        this.vx = random(-2*Math.PI, 2*Math.PI);
-        this.vy = random(-2*Math.PI, 2*Math.PI);
+        this.vx = random(-2 * Math.PI, 2 * Math.PI);
+        this.vy = random(-2 * Math.PI, 2 * Math.PI);
     }
 
     update() {
