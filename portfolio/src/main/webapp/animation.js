@@ -11,8 +11,7 @@ function draw() {
 
 function createParticles() {
     for (let i = 0; i < 5; i++) {
-        let particle = new Particle();
-        particles.push(particle);
+        particles.push(new Particle());
     }
 }
 

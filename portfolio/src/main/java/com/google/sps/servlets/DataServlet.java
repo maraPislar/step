@@ -15,18 +15,17 @@
 package com.google.sps.servlets;
 
 import com.google.gson.Gson;
-import java.util.ArrayList;
+import java.util.*;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that encapsulates the subtraction game. */
+/** Servlet that encapsulates comments. */
 @WebServlet("/data")
 public final class DataServlet extends HttpServlet {
-
-    private ArrayList<String> comments = new ArrayList<String>();
+    private List<String> comments = new ArrayList<String>();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -37,7 +36,6 @@ public final class DataServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         // Get the input from the form.
         String userComment = getUserComment(request);
         comments.add(userComment);
@@ -46,9 +44,7 @@ public final class DataServlet extends HttpServlet {
         response.sendRedirect("/comment.html");
     }
 
-    /** Return the comment entered by the user */
     private String getUserComment(HttpServletRequest request) {
-        // Get the input from the form.
         return request.getParameter("user-comment");
     }
 }

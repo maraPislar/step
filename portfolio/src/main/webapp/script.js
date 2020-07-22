@@ -80,6 +80,17 @@ function getComments() {
         response.json()
     }) // parses the response as JSON
     .then((comments) => { // now we can reference the fields in comments
-        document.getElementById("history").innerText = comments;
+        // Build the list of history entries.
+        const historyEl = document.getElementById("history");
+        comments.history.forEach((line) => {
+        historyEl.appendChild(createListElement(line));
+    });
   });
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement("li");
+  liElement.innerText = text;
+  return liElement;
 }
