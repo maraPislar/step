@@ -14,41 +14,41 @@
 
 package com.google.sps.servlets;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import com.google.gson.Gson;
+import java.util.ArrayList;
+import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that encapsulates the subtraction game. */
 @WebServlet("/data")
-public class DataServlet extends HttpServlet {
+public final class DataServlet extends HttpServlet {
 
-    private ArrayList<String> messages;
+    private ArrayList<String> comments = new ArrayList<String>();
 
     @Override
-    public void init() {
-        messages = new ArrayList<String>();
-        messages.add("Wow");
-        messages.add("Didn't know that about you");
-        messages.add("Hello");
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        String json = new Gson().toJson(comments);
+        response.getWriter().println(json);
     }
 
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    String json = convertToJson(messages);
+        // Get the input from the form.
+        String userComment = getUserComment(request);
+        comments.add(userComment);
 
-    // Send the JSON as the response
-    response.setContentType("text/html;");
-    response.getWriter().println(json);
-  }
+        // Redirect back to the HTML page.
+        response.sendRedirect("/comment.html");
+    }
 
-  private String convertToJson(ArrayList<String> messages) {
-    Gson gson = new Gson();
-    String json = gson.toJson(messages);
-    return json;
-  }
+    /** Return the comment entered by the user */
+    private String getUserComment(HttpServletRequest request) {
+        // Get the input from the form.
+        return request.getParameter("user-comment");
+    }
 }

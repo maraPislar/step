@@ -74,12 +74,12 @@ function hasSlides() {
     return !(slides === undefined || slides.length == 0);
 }
 
-function getMessages() {
-  fetch("/data")  // sends a request to /data
-    .then((response) => {
+function getComments() {
+  fetch('/data') // sends a request to /data
+    .then(response => {
         response.json()
     }) // parses the response as JSON
-    .then((message) => { // now we can reference the fields in message
-        document.getElementById("messages-container").innerText = message;
-    });
+    .then((comments) => { // now we can reference the fields in comments
+        document.getElementById("history").innerText = comments;
+  });
 }
