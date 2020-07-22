@@ -15,6 +15,9 @@
 package com.google.sps.servlets;
 
 import com.google.gson.Gson;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import java.util.*;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -25,26 +28,25 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that encapsulates comments. */
 @WebServlet("/data")
 public final class DataServlet extends HttpServlet {
-    private List<String> comments = new ArrayList<String>();
-
-    @Override
+  @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("application/json");
-        String json = new Gson().toJson(comments);
-        response.getWriter().println(json);
+      response.setContentType("application/json");
+      String json = new Gson().toJson(comments);
+      response.getWriter().println(json);
     }
 
-    @Override
+  @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Get the input from the form.
-        String userComment = getUserComment(request);
-        comments.add(userComment);
+      // Get the input from the form.
+      String userComment = request.getParameter("user-comment");
 
-        // Redirect back to the HTML page.
-        response.sendRedirect("/comment.html");
-    }
+      Entity commentEntity = new Entity("Comment");
+      commentEntity.setProperty("comment", userComment);
 
-    private String getUserComment(HttpServletRequest request) {
-        return request.getParameter("user-comment");
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      datastore.put(commentEntity);
+
+      // Redirect back to the HTML page.
+      response.sendRedirect("/comment.html");
     }
 }
