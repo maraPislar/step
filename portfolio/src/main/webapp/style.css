@@ -1,65 +1,169 @@
-#menu {
-    color: white;
-    position: relative;
-    text-align: center;
+#home-page {
+    background-image:  url("/images/bg.jpg");
+    font-family: "Lato", sans-serif;
+    margin: 0; 
+    height: 100%; 
+    overflow: hidden
 }
 
-#menuimage {
-    height: 800px;
-    width: 100%;
-}
-
-#name {
-    color: white;
-    font-size: 600%;
-    left: 60px;
+.home-image {
+    bottom: 0px;
+    height: 100%;
+    left: 800px;
     position: absolute;
-    text-shadow: 2px 2px 5px black;
-    top: 100px;
+    top: 0px;
+    width: 700px;
 }
 
-#fact-button {
-    background-color: turquoise;
+.intro {
+    font-size: 170%;
+    left: 700px;
+    position: relative;
+    text-align: justify;
+    top: 160px;
+    width: 500px;
+}
+
+.top-cloud {
+    height: 320px;
+    position: absolute;
+    top: 30px;
+    width: 650px;    
+}
+
+#bottom-cloud {
+    height: 320px;
+    position: absolute;
+    top: 360px;
+    width: 650px;
+}
+
+#sub-page {
+    font-family: "Lato", sans-serif;
+    font-weight: 100px;
+}
+
+/* On the side navigation bar */
+.sidenav {
+    background-image: url("/images/bg.jpg");
+    height: 100%;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 250px;
+    position: fixed;
+    top: 0;
+    width: 200px;
+    z-index: 1;
+}
+
+.sidenav a {
+    color: #818181;
+    display: block;
+    font-size: 25px;
+    padding: 6px 6px 6px 32px;
+    text-decoration: none;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+/* Applies to the text outside the side bar */
+.main {
+    margin-left: 200px; /* Same as the width of the sidenav */
+}
+
+/* On the side bar */
+@media screen and (max-height: 450px) {
+  .sidenav {
+      padding-top: 15px;
+    }
+  .sidenav a {
+      font-size: 18px;
+    }
+}
+
+.fact-button {
+    align-items: center;
+    background-color: black;
     border-radius: 2em;
     box-sizing: border-box;
     color: white;
     display: inline-block;
-    font-size: 150%;
-    font-weight: 300;
-    left: 60px;
+    font-size: 100%;
+    font-weight: 200;
+    left: 850px;
     margin: 0 0.3em 0.3em 0;
     padding: 0.3em 1.2em;
-    position: absolute;
+    position: relative;
     text-align: center;
     text-shadow: 2px 2px 5px black;
-    top: 350px;
+    top: 200px;
     transition: all 0.2s;
 }
 
-#fact-button:hover {
-    background-color: darkturquoise;
+.fact-button:hover {
+    color: black;
+    background-color: transparent;
 }
 
-#links {
-    bottom: 150px;
-    color: cadetblue;
-    font-size: 100%;
+.gallery {
+    color: white;
+    font-size: 300%;
+    left: 450px;
     position: absolute;
-    right: 16px;
+    text-decoration: none;
+    top: 160px;
 }
 
-#content {
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
-  width: 800px;
+.gallery:hover {
+    color:white;
+    text-shadow: 2px 2px 5px black;
+}
+
+#tool {
+    top: 500px;
+    left: 400px;
 }
 
 #fact-container {
-  font-size: 200%;
-  left: 60px;
-  margin-top: 20px;
-  position: absolute;
+    font-size: 150%;
+    left: 710px;
+    position: relative;
+    text-shadow: 2px 2px 5px black;
+    top: 250px;
+}
+
+/* On all titles except of home page */
+.title {
+    font-size: 20px;
+    position: relative;
+    text-shadow: 2px 2px 5px black;
+}
+  
+.content {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    text-align: justify;
+    top: 50px;
+    bottom: 300px;
+    width: 500px;
+}
+
+.some-image {
+    vertical-align: middle;
+    width: 100%;
+    top: 100px;
+}
+
+#animation {
+    background-image:  url("/images/bg.jpg");
+}
+
+#messages-container {
+  margin-top: 50px;
+  font-size: 300%;
+  color: white;
   text-shadow: 2px 2px 5px black;
-  top: 400px;
 }

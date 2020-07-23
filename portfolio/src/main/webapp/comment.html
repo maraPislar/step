@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Comment Something</title>
+    <script src="script.js"></script>
+  </head>
+  <body onload="getComments()">
+    <h1>Add a comment</h1>
+
+    <p>Comment something about this page.</p>
+
+    <form action="/data" method="POST">
+
+      <p>Complete this:</p>
+      <input type="text" name="user-comment" value="Type your comment here">
+      <br/><br/>
+
+      <input type="submit" value="Submit"/>
+    </form>
+
+    <ul id="history"></ul>
+
+  </body>
+</html>
