@@ -74,23 +74,45 @@ function hasSlides() {
     return !(slides === undefined || slides.length == 0);
 }
 
+/** Fetches commenta from the server and adds them to the DOM. */
 function getComments() {
-  fetch('/data') // sends a request to /data
-    .then(response => {
-        response.json()
-    }) // parses the response as JSON
-    .then((comments) => { // now we can reference the fields in comments
-        // Build the list of history entries.
-        const historyEl = document.getElementById("history");
-        comments.history.forEach((line) => {
-        historyEl.appendChild(createListElement(line));
-    });
+  fetch('/data')
+  .then((response) => {
+      response.json()
+    })
+  .then((comments) => {
+    const commentListElement = document.getElementById("history");
+    comments.forEach((comment) => {
+      commentListElement.appendChild(createCommentElement(comment));
+    })
   });
 }
 
-/** Creates an <li> element containing text. */
-function createListElement(text) {
-  const liElement = document.createElement("li");
-  liElement.innerText = text;
-  return liElement;
+/** Creates an element that represents a comment, including its delete button. */
+function createCommentElement(comment) {
+  const commentElement = document.createElement('li');
+  commentElement.className = 'comment';
+
+  const textElement = document.createElement('span');
+  textElement.innerText = comment.name +  ":\n" + comment.text;
+
+  const deleteButtonElement = document.createElement('button');
+  deleteButtonElement.className = 'delete-button';
+
+  deleteButtonElement.innerText = 'Delete';
+  deleteButtonElement.addEventListener('click', () => {
+    deleteComment(comment);
+    commentElement.remove();
+  });
+
+  commentElement.appendChild(textElement);
+  commentElement.appendChild(deleteButtonElement);
+
+  return commentElement;
+}
+
+function deleteComment(comment) {
+  const params = new URLSearchParams();
+  params.append('id', comment.id);
+  fetch('/delete-data', {method: 'POST', body: params});
 }

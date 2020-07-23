@@ -3,23 +3,43 @@
   <head>
     <meta charset="UTF-8">
     <title>Comment Something</title>
+    <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body onload="getComments()">
-    <h1>Add a comment</h1>
+  <body onload="getComments()" id="sub-page">
+    <div class="sidenav">
+      <a href="index.html">Home</a>
+      <a href="background.html">Background</a>
+      <a href="projects.html">Projects</a>
+      <a href="personal.html">Personal</a>
+      <a href="https://www.linkedin.com/in/theodora-mara-pislar-983117196/"
+          target="_blank">LinkedIn</a>
+      <a href="https://github.com/maraPislar" target="_blank">Github</a>
+      <a href="comment.html">Comment</a>
+    </div>
 
-    <p>Comment something about this page.</p>
+    <div class="main">
+      <div class="content">
+        <h1>Add a comment</h1>
 
-    <form action="/data" method="POST">
+        <form action="/data" method="POST">
+          <label for="user-name">Name: </label>
+          <input class="textarea" type="text" name="user-name" value="Unknown"><br>
 
-      <p>Complete this:</p>
-      <input type="text" name="user-comment" value="Type your comment here">
-      <br/><br/>
+          <p>Your comment:</p>
+          <input class="textarea" type="text" name="user-comment" value="Type your comment here">
+          <br/><br/>
 
-      <input type="submit" value="Submit"/>
-    </form>
+          <label for="quantity">Comments shown (between 0 and 10): </label>
+          <input type="number" id="quantity" name="quantity" min="0" max="10" value="10">
+          <br><br>
 
-    <ul id="history"></ul>
+          <input class="submit-button" type="submit" value="Submit"/>
+        </form>
+
+        <ul id="history"></ul>
+      </div>
+    </div>
 
   </body>
 </html>
