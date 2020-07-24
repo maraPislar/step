@@ -77,10 +77,7 @@ function hasSlides() {
 /** Fetches commenta from the server and adds them to the DOM. */
 function getComments() {
   fetch('/data')
-  .then((response) => {
-      response.json()
-    })
-  .then((comments) => {
+  .then(response => response.json()).then((comments) => {
     const commentListElement = document.getElementById("history");
     comments.forEach((comment) => {
       commentListElement.appendChild(createCommentElement(comment));
@@ -94,19 +91,19 @@ function createCommentElement(comment) {
   commentElement.className = 'comment';
 
   const textElement = document.createElement('span');
-  textElement.innerText = comment.name +  ":\n" + comment.text;
+  textElement.innerText = comment.author +  ":\n" + comment.text;
 
-  const deleteButtonElement = document.createElement('button');
-  deleteButtonElement.className = 'delete-button';
+  const deleteButton = document.createElement('button');
+  deleteButton.className = 'delete-button';
 
-  deleteButtonElement.innerText = 'Delete';
-  deleteButtonElement.addEventListener('click', () => {
+  deleteButton.innerText = 'Delete';
+  deleteButton.addEventListener('click', () => {
     deleteComment(comment);
     commentElement.remove();
   });
 
   commentElement.appendChild(textElement);
-  commentElement.appendChild(deleteButtonElement);
+  commentElement.appendChild(deleteButton);
 
   return commentElement;
 }
