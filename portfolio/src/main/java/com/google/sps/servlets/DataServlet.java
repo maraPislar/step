@@ -35,17 +35,32 @@ import javax.servlet.http.HttpServletResponse;
 public final class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment");
-
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
+
+    String filter = request.getParameter("filter");
+
+    if (filter.equals("newest")) {
+      query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    } else if (filter.equals("oldest")) {
+      query = new Query("Comment").addSort("timestamp", SortDirection.ASCENDING);
+    } else if (filter.equals("longest")) {
+      query = new Query("Comment").addSort("text", SortDirection.DESCENDING);
+    } else {
+      query = new Query("Comment");
+    }
 
     List<Comment> comments = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       long id = entity.getKey().getId();
       String text = (String) entity.getProperty("text");
       String author = (String) entity.getProperty("author");
-      Comment comment = new Comment(id, text, author);
+      String mood = (String) entity.getProperty("mood");
+      long timestamp = (long) entity.getProperty("timestamp");
+
+      Comment comment = new Comment(id, text, author, mood, timestamp);
       comments.add(comment);
     }
 
@@ -60,10 +75,14 @@ public final class DataServlet extends HttpServlet {
     // Get the input from the form.
     String userComment = request.getParameter("user-comment");
     String userName = request.getParameter("user-name");
+    String userMood = request.getParameter("mood");
+    long timestamp = System.currentTimeMillis();
 
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("text", userComment);
     commentEntity.setProperty("author", userName);
+    commentEntity.setProperty("mood", userMood);
+    commentEntity.setProperty("timestamp", timestamp);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
