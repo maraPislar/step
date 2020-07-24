@@ -29,10 +29,28 @@ import javax.servlet.http.HttpServletResponse;
 public class DeleteComments extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    long id = Long.parseLong(request.getParameter("id"));
+    long id = verifyId(request);
+
+    if(id == -1) {
+      response.setContentType("text/html");
+      response.getWriter().println("Please enter a number.");
+      return;
+    }
     
     Key commentEntityKey = KeyFactory.createKey("Comment", id);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.delete(commentEntityKey);
+  }
+
+  public long verifyId(HttpServletRequest request) {
+    long id;
+    try {
+      id = Long.parseLong(request.getParameter("id"));
+    } catch (NumberFormatException e) {
+      System.err.println("Could not convert to long: " + request.getParameter("id"));
+      return -1;
+    }
+
+    return id;
   }
 }
