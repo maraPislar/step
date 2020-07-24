@@ -91,7 +91,8 @@ function createCommentElement(comment) {
   commentElement.className = 'comment';
 
   const textElement = document.createElement('span');
-  textElement.innerText = comment.author +  ":\n" + comment.text;
+  textElement.innerText = comment.author + "  (" + comment.mood + ")"
+                          + ":\n" + comment.text;
 
   const deleteButton = document.createElement('button');
   deleteButton.className = 'delete-button';
@@ -101,6 +102,8 @@ function createCommentElement(comment) {
     deleteComment(comment);
     commentElement.remove();
   });
+
+  
 
   commentElement.appendChild(textElement);
   commentElement.appendChild(deleteButton);

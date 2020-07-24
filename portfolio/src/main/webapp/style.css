@@ -237,3 +237,9 @@
 ::placeholder {
     color: black;
 }
+
+#select {
+    width: 90px;
+    padding: 5px;
+    margin: 5px;
+}
