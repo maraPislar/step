@@ -35,80 +35,110 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that encapsulates comments. */
 @WebServlet("/data")
 public final class DataServlet extends HttpServlet {
-  String userFilter;
-  int commentNumber;
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    PreparedQuery results = fetch(); 
+    List<Comment> comments = toInternal(results);
+    String userFilter = getLastFilter(comments);
+    sort(comments, userFilter);
+    String json = toJson(comments);
+
+    response.setContentType("application/json;");
+    response.getWriter().println(json);
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    constructFromInput();
+
+    // Redirect back to the HTML page.
+    response.sendRedirect("/comment.html");
+  }
+
+  /* Prepare the query */
+  public PreparedQuery fetch() {
     Query query = new Query("Comment");
-
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    PreparedQuery results = datastore.prepare(query);
+    return datastore.prepare(query);
+  }
 
+  /* Construct the array of Comment objects to manipulate it after */
+  public List<Comment> toInternal(PreparedQuery results) {
     List<Comment> comments = new ArrayList<>();
+
     for (Entity entity : results.asIterable()) {
       long id = entity.getKey().getId();
       String text = (String) entity.getProperty("text");
       String author = (String) entity.getProperty("author");
       String mood = (String) entity.getProperty("mood");
       Long timestamp = (Long) entity.getProperty("timestamp");
+      String userFilter = (String) entity.getProperty("filter");
 
-      Comment comment = new Comment(id, text, author, mood, timestamp);
+      Comment comment = new Comment(id, text, author, mood, timestamp, userFilter);
       comments.add(comment);
     }
 
-    /* Create filters for sorting the comments */
-    Comparator<Comment> compareByTimestamp = (Comment c1, Comment c2) -> 
-                            c1.getTimestamp().compareTo(c2.getTimestamp());
-
-    Comparator<Comment> compareByText = (Comment c1, Comment c2) -> 
-                            c1.getTextLength().compareTo(c2.getTextLength());
-
-    /* Sort the comments by the filter selected by the user */
-    if ("newest".equals(userFilter)) {
-      Collections.sort(comments, compareByTimestamp.reversed());
-    } else if ("oldest".equals(userFilter)) {
-      Collections.sort(comments, compareByTimestamp);
-    } else if ("longest".equals(userFilter)) {
-      Collections.sort(comments, compareByText.reversed());
-    }
-
-    Gson gson = new Gson();
-
-    response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(comments));
+    return comments;
   }
 
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the input from the form.
+  /* Create filters for timestap and text of comment */
+  public Comparator timestampFilter() {
+    Comparator<Comment> filter = (Comment c1, Comment c2) -> 
+                        c1.getTimestamp().compareTo(c2.getTimestamp());
+    return filter;
+  }
+
+  public Comparator textFilter() {
+    Comparator<Comment> filter = (Comment c1, Comment c2) -> 
+                        c1.getTextLength().compareTo(c2.getTextLength());
+    return filter;
+  }
+
+  /* Get the filter from the last added comment => that is the filter wanted */
+  public String getLastFilter(List<Comment> comments) {
+    Collections.sort(comments, timestampFilter().reversed());
+    return comments.get(0).getFilter();
+  }
+
+  /* Filter the comments => sort by timestamp or text */
+  public void sort(List<Comment> comments, String userFilter) {
+    if ("newest".equals(userFilter)) {
+      Collections.sort(comments, timestampFilter().reversed());
+    } else if ("oldest".equals(userFilter)) {
+      Collections.sort(comments, timestampFilter());
+    } else if ("longest".equals(userFilter)) {
+      Collections.sort(comments, textFilter().reversed());
+    }
+  }
+
+  /* Convert the filtered comments to json */
+  public String toJson(List<Comment> comments) {
+    Gson gson = new Gson();
+    return gson.toJson(comments);
+  }
+
+  /* Get the input from the form, create entity and add to datastore*/
+  public void constructFromInput() {
     String userComment = request.getParameter("user-comment");
     String userName = request.getParameter("user-name");
     String userMood = request.getParameter("mood");
     Long timestamp = System.currentTimeMillis();
-
-    userFilter = getFilterChoice(request);
-    commentNumber = getNumberComment(request);
-    if (commentNumber == -1) {
-      response.setContentType("text/html");
-      response.getWriter().println("Please enter an integer between 0 and 10.");
-      return;
-    }
+    String userFilter = getFilterChoice(request);
 
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("text", userComment);
     commentEntity.setProperty("author", userName);
     commentEntity.setProperty("mood", userMood);
     commentEntity.setProperty("timestamp", timestamp);
+    commentEntity.setProperty("filter", userFilter);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
-
-    // Redirect back to the HTML page.
-    response.sendRedirect("/comment.html");
   }
 
-  public String getFilterChoice(HttpServletRequest request) {
+  /* Get the requested filter and also look for input errors */
+  public static String getFilterChoice(HttpServletRequest request) {
     String filter = request.getParameter("filter");
 
     if ("newest".equals(filter) || "oldest".equals(filter) || "longest".equals(filter)) {
@@ -120,7 +150,7 @@ public final class DataServlet extends HttpServlet {
   }
 
   /* Get the number of comments to show and check the input */
-  public int getNumberComment(HttpServletRequest request) {
+  public static int getNumberComment(HttpServletRequest request) {
     String quantityString = request.getParameter("quantity");
 
     int quantity;
