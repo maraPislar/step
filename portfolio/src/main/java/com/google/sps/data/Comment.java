@@ -10,13 +10,16 @@ public final class Comment {
   public final String text;
   public final String author;
   public final String mood;
+  public final String filter;
 
-  public Comment(long id, String text, String author, String mood, Long timestamp) {
+  public Comment(long id, String text, String author, String mood, Long timestamp,
+                String filter) {
     this.id = id;
     this.text = text;
     this.author = author;
     this.mood = mood;
     this.timestamp = timestamp;
+    this.filter = filter;
   }
 
   public Long getTimestamp() {
@@ -25,5 +28,9 @@ public final class Comment {
 
   public Integer getTextLength() {
       return (Integer) this.text.length();
+  }
+
+  public String getFilter() {
+      return this.filter;
   }
 }
