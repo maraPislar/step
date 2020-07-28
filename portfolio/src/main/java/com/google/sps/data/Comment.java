@@ -6,13 +6,13 @@ package com.google.sps.data;
 
 public final class Comment {
   public final long id;
-  public final Long timestamp;
+  public final long timestamp;
   public final String text;
   public final String author;
   public final String mood;
   public final String filter;
 
-  public Comment(long id, String text, String author, String mood, Long timestamp,
+  public Comment(long id, String text, String author, String mood, long timestamp,
                 String filter) {
     this.id = id;
     this.text = text;
@@ -22,11 +22,11 @@ public final class Comment {
     this.filter = filter;
   }
 
-  public Long getTimestamp() {
+  public long getTimestamp() {
       return this.timestamp;
   }
 
-  public Integer getTextLength() {
+  public int getTextLength() {
       return (Integer) this.text.length();
   }
 

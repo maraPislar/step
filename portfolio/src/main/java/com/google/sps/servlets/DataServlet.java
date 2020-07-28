@@ -50,21 +50,21 @@ public final class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    constructFromInput();
+    constructFromInput(request);
 
     // Redirect back to the HTML page.
     response.sendRedirect("/comment.html");
   }
 
   /* Prepare the query */
-  public PreparedQuery fetch() {
+  public static PreparedQuery fetch() {
     Query query = new Query("Comment");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     return datastore.prepare(query);
   }
 
   /* Construct the array of Comment objects to manipulate it after */
-  public List<Comment> toInternal(PreparedQuery results) {
+  public static List<Comment> toInternal(PreparedQuery results) {
     List<Comment> comments = new ArrayList<>();
 
     for (Entity entity : results.asIterable()) {
@@ -72,7 +72,7 @@ public final class DataServlet extends HttpServlet {
       String text = (String) entity.getProperty("text");
       String author = (String) entity.getProperty("author");
       String mood = (String) entity.getProperty("mood");
-      Long timestamp = (Long) entity.getProperty("timestamp");
+      long timestamp = (long) entity.getProperty("timestamp");
       String userFilter = (String) entity.getProperty("filter");
 
       Comment comment = new Comment(id, text, author, mood, timestamp, userFilter);
@@ -83,26 +83,24 @@ public final class DataServlet extends HttpServlet {
   }
 
   /* Create filters for timestap and text of comment */
-  public Comparator timestampFilter() {
-    Comparator<Comment> filter = (Comment c1, Comment c2) -> 
-                        c1.getTimestamp().compareTo(c2.getTimestamp());
-    return filter;
+  public static Comparator timestampFilter() {
+    Comparator<Comment> byTimestamp = Comparator.comparingLong(Comment::getTimestamp);
+    return byTimestamp;
   }
 
-  public Comparator textFilter() {
-    Comparator<Comment> filter = (Comment c1, Comment c2) -> 
-                        c1.getTextLength().compareTo(c2.getTextLength());
-    return filter;
+  public static Comparator textFilter() {
+    Comparator<Comment> byLength = Comparator.comparingInt(Comment::getTextLength);
+    return byLength;
   }
 
   /* Get the filter from the last added comment => that is the filter wanted */
-  public String getLastFilter(List<Comment> comments) {
+  public static String getLastFilter(List<Comment> comments) {
     Collections.sort(comments, timestampFilter().reversed());
     return comments.get(0).getFilter();
   }
 
   /* Filter the comments => sort by timestamp or text */
-  public void sort(List<Comment> comments, String userFilter) {
+  public static void sort(List<Comment> comments, String userFilter) {
     if ("newest".equals(userFilter)) {
       Collections.sort(comments, timestampFilter().reversed());
     } else if ("oldest".equals(userFilter)) {
@@ -113,17 +111,17 @@ public final class DataServlet extends HttpServlet {
   }
 
   /* Convert the filtered comments to json */
-  public String toJson(List<Comment> comments) {
+  public static String toJson(List<Comment> comments) {
     Gson gson = new Gson();
     return gson.toJson(comments);
   }
 
   /* Get the input from the form, create entity and add to datastore*/
-  public void constructFromInput() {
+  public static void constructFromInput(HttpServletRequest request) {
     String userComment = request.getParameter("user-comment");
     String userName = request.getParameter("user-name");
     String userMood = request.getParameter("mood");
-    Long timestamp = System.currentTimeMillis();
+    long timestamp = System.currentTimeMillis();
     String userFilter = getFilterChoice(request);
 
     Entity commentEntity = new Entity("Comment");
