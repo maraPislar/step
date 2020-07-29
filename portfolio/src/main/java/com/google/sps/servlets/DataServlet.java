@@ -20,6 +20,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.Comment;
 import java.io.IOException;
@@ -40,8 +42,8 @@ public final class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     PreparedQuery results = fetch(); 
     List<Comment> comments = toInternal(results);
-    String userFilter = getLastFilter(comments);
-    sort(comments, userFilter);
+    String filter = getSortingCriterion(request);
+    sort(comments, filter);
     String json = toJson(comments);
 
     response.setContentType("application/json;");
@@ -50,7 +52,7 @@ public final class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    constructFromInput(request);
+    addToDatastore(request);
 
     // Redirect back to the HTML page.
     response.sendRedirect("/comment.html");
@@ -73,9 +75,9 @@ public final class DataServlet extends HttpServlet {
       String author = (String) entity.getProperty("author");
       String mood = (String) entity.getProperty("mood");
       long timestamp = (long) entity.getProperty("timestamp");
-      String userFilter = (String) entity.getProperty("filter");
+      String userEmail = (String) entity.getProperty("email");
 
-      Comment comment = new Comment(id, text, author, mood, timestamp, userFilter);
+      Comment comment = new Comment(id, text, author, mood, timestamp, userEmail);
       comments.add(comment);
     }
 
@@ -91,12 +93,6 @@ public final class DataServlet extends HttpServlet {
   public static Comparator textFilter() {
     Comparator<Comment> byLength = Comparator.comparingInt(Comment::getTextLength);
     return byLength;
-  }
-
-  /* Get the filter from the last added comment => that is the filter wanted */
-  public static String getLastFilter(List<Comment> comments) {
-    Collections.sort(comments, timestampFilter().reversed());
-    return comments.get(0).getFilter();
   }
 
   /* Filter the comments => sort by timestamp or text */
@@ -117,32 +113,34 @@ public final class DataServlet extends HttpServlet {
   }
 
   /* Get the input from the form, create entity and add to datastore*/
-  public static void constructFromInput(HttpServletRequest request) {
+  public static void addToDatastore(HttpServletRequest request) {
     String userComment = request.getParameter("user-comment");
     String userName = request.getParameter("user-name");
     String userMood = request.getParameter("mood");
     long timestamp = System.currentTimeMillis();
-    String userFilter = getFilterChoice(request);
+
+    UserService userService = UserServiceFactory.getUserService();
+    String userEmail = userService.getCurrentUser().getEmail();
 
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("text", userComment);
     commentEntity.setProperty("author", userName);
     commentEntity.setProperty("mood", userMood);
     commentEntity.setProperty("timestamp", timestamp);
-    commentEntity.setProperty("filter", userFilter);
+    commentEntity.setProperty("email", userEmail);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
   }
 
   /* Get the requested filter and also look for input errors */
-  public static String getFilterChoice(HttpServletRequest request) {
+  public static String getSortingCriterion(HttpServletRequest request) {
     String filter = request.getParameter("filter");
 
     if ("newest".equals(filter) || "oldest".equals(filter) || "longest".equals(filter)) {
       return filter;
     } else {
-      System.err.println("This filter is not valid: " + filter);
+      System.err.println("This filter is not valid or null: " + filter);
       return "newest";
     }
   }

@@ -16,26 +16,34 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gson.Gson;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that encapsulates comments. */
 @WebServlet("/loginstatus")
 public final class LoginServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html");
-
     UserService userService = UserServiceFactory.getUserService();
+    String json;
+
     if (userService.isUserLoggedIn()) {
-      String userEmail = userService.getCurrentUser().getEmail();
-      response.getWriter().println("<p>You are logged in as " + userEmail + ".</p>");
+      json = toJson("loggedIn");
     } else {
-      response.getWriter().println("<p>You are not logged in.</p>");
+      String loginUrl = userService.createLoginURL("/loginstatus");
+      json = toJson(loginUrl);
     }
+
+    response.setContentType("application/json;");
+    response.getWriter().println(json);
+  }
+
+  public static String toJson(String url) {
+    Gson gson = new Gson();
+    return gson.toJson(url);
   }
 }

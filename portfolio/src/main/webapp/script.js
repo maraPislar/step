@@ -76,7 +76,9 @@ function hasSlides() {
 
 /** Fetches commenta from the server and adds them to the DOM. */
 function getComments() {
-  fetch('/data')
+  var url = '/data?quantity=10&filter=' + document.getElementById("filter").value;
+  console.log(url);
+  fetch(url)
   .then(response => response.json()).then((comments) => {
     const commentListElement = document.getElementById("history");
     comments.forEach((comment) => {
@@ -92,7 +94,8 @@ function createCommentElement(comment) {
 
   const textElement = document.createElement('span');
   textElement.innerText = comment.author + "  (" + comment.mood + ")"
-                          + ":\n" + comment.text;
+                          + "\n" + "- " + comment.email + " -"
+                          + "\n\n" + comment.text;
 
   const deleteButton = document.createElement('button');
   deleteButton.className = 'delete-button';
@@ -102,9 +105,7 @@ function createCommentElement(comment) {
     deleteComment(comment);
     commentElement.remove();
   });
-
   
-
   commentElement.appendChild(textElement);
   commentElement.appendChild(deleteButton);
 
@@ -115,4 +116,20 @@ function deleteComment(comment) {
   const params = new URLSearchParams();
   params.append('id', comment.id);
   fetch('/delete-data', {method: 'POST', body: params});
+}
+
+function refreshPage(){
+    window.location.reload();
+}
+
+function getLogin() {
+  fetch('/loginstatus')
+  .then(response => response.json()).then((loginUrl) => {
+      if(loginUrl === "loggedIn") {
+        window.location.replace("comment.html");
+      } else {
+        var link = "Click me to login first".link(loginUrl);
+        document.getElementById("login").innerHTML = link;
+      }
+  });
 }
