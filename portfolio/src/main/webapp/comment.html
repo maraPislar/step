@@ -23,15 +23,34 @@
         <h1>Add a comment</h1>
 
         <form action="/data" method="POST">
-          <label for="user-name">Name: </label>
+          <p class="title">Name:</p>
           <input class="textarea" type="text" name="user-name" value="Unknown"><br>
 
-          <p>Your comment:</p>
+          <p class="title">Your comment:</p>
           <input class="textarea" type="text" name="user-comment" value="Type your comment here">
           <br/><br/>
 
-          <label for="quantity">Comments shown (between 0 and 10): </label>
-          <input type="number" id="quantity" name="quantity" min="0" max="10" value="10">
+          <label class="title" for="mood">Mood: </label>
+          <select name="mood" id="select">
+            <option value="happy">happy</option>
+            <option value="sad">sad</option>
+            <option value="surprised">surprised</option>
+            <option value="amazed">amazed</option>
+            <option value="confused">confused</option>
+            <option value="neutral">neutral</option>
+            <option value="other">other</option>
+          </select> <br><br>
+
+          <label for="quantity">Comments shown: </label>
+          <input type="number" id="select" name="quantity" min="0" max="10" value="10">
+          <br>
+
+          <label for="filter">Comments filter: </label>
+          <select name="filter" id="select">
+            <option value="newest">newest</option>
+            <option value="oldest">oldest</option>
+            <option value="longest">longest</option>
+          </select>
           <br><br>
 
           <input class="submit-button" type="submit" value="Submit"/>

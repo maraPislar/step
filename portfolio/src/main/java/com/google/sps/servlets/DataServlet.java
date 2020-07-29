@@ -24,6 +24,8 @@ import com.google.gson.Gson;
 import com.google.sps.data.Comment;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,42 +35,135 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that encapsulates comments. */
 @WebServlet("/data")
 public final class DataServlet extends HttpServlet {
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment");
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    PreparedQuery results = datastore.prepare(query);
-
-    List<Comment> comments = new ArrayList<>();
-    for (Entity entity : results.asIterable()) {
-      long id = entity.getKey().getId();
-      String text = (String) entity.getProperty("text");
-      String author = (String) entity.getProperty("author");
-      Comment comment = new Comment(id, text, author);
-      comments.add(comment);
-    }
-
-    Gson gson = new Gson();
+    PreparedQuery results = fetch(); 
+    List<Comment> comments = toInternal(results);
+    String userFilter = getLastFilter(comments);
+    sort(comments, userFilter);
+    String json = toJson(comments);
 
     response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(comments));
+    response.getWriter().println(json);
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the input from the form.
+    constructFromInput(request);
+
+    // Redirect back to the HTML page.
+    response.sendRedirect("/comment.html");
+  }
+
+  /* Prepare the query */
+  public static PreparedQuery fetch() {
+    Query query = new Query("Comment");
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    return datastore.prepare(query);
+  }
+
+  /* Construct the array of Comment objects to manipulate it after */
+  public static List<Comment> toInternal(PreparedQuery results) {
+    List<Comment> comments = new ArrayList<>();
+
+    for (Entity entity : results.asIterable()) {
+      long id = entity.getKey().getId();
+      String text = (String) entity.getProperty("text");
+      String author = (String) entity.getProperty("author");
+      String mood = (String) entity.getProperty("mood");
+      long timestamp = (long) entity.getProperty("timestamp");
+      String userFilter = (String) entity.getProperty("filter");
+
+      Comment comment = new Comment(id, text, author, mood, timestamp, userFilter);
+      comments.add(comment);
+    }
+
+    return comments;
+  }
+
+  /* Create filters for timestap and text of comment */
+  public static Comparator timestampFilter() {
+    Comparator<Comment> byTimestamp = Comparator.comparingLong(Comment::getTimestamp);
+    return byTimestamp;
+  }
+
+  public static Comparator textFilter() {
+    Comparator<Comment> byLength = Comparator.comparingInt(Comment::getTextLength);
+    return byLength;
+  }
+
+  /* Get the filter from the last added comment => that is the filter wanted */
+  public static String getLastFilter(List<Comment> comments) {
+    Collections.sort(comments, timestampFilter().reversed());
+    return comments.get(0).getFilter();
+  }
+
+  /* Filter the comments => sort by timestamp or text */
+  public static void sort(List<Comment> comments, String userFilter) {
+    if ("newest".equals(userFilter)) {
+      Collections.sort(comments, timestampFilter().reversed());
+    } else if ("oldest".equals(userFilter)) {
+      Collections.sort(comments, timestampFilter());
+    } else if ("longest".equals(userFilter)) {
+      Collections.sort(comments, textFilter().reversed());
+    }
+  }
+
+  /* Convert the filtered comments to json */
+  public static String toJson(List<Comment> comments) {
+    Gson gson = new Gson();
+    return gson.toJson(comments);
+  }
+
+  /* Get the input from the form, create entity and add to datastore*/
+  public static void constructFromInput(HttpServletRequest request) {
     String userComment = request.getParameter("user-comment");
     String userName = request.getParameter("user-name");
+    String userMood = request.getParameter("mood");
+    long timestamp = System.currentTimeMillis();
+    String userFilter = getFilterChoice(request);
 
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("text", userComment);
     commentEntity.setProperty("author", userName);
+    commentEntity.setProperty("mood", userMood);
+    commentEntity.setProperty("timestamp", timestamp);
+    commentEntity.setProperty("filter", userFilter);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
+  }
 
-    // Redirect back to the HTML page.
-    response.sendRedirect("/comment.html");
+  /* Get the requested filter and also look for input errors */
+  public static String getFilterChoice(HttpServletRequest request) {
+    String filter = request.getParameter("filter");
+
+    if ("newest".equals(filter) || "oldest".equals(filter) || "longest".equals(filter)) {
+      return filter;
+    } else {
+      System.err.println("This filter is not valid: " + filter);
+      return "newest";
+    }
+  }
+
+  /* Get the number of comments to show and check the input */
+  public static int getNumberComment(HttpServletRequest request) {
+    String quantityString = request.getParameter("quantity");
+
+    int quantity;
+    try {
+      quantity = Integer.parseInt(quantityString);
+    } catch (NumberFormatException e) {
+      System.err.println("Could not convert to int: " + quantityString);
+      return -1;
+    }
+
+    if (quantity < 0 || quantity > 10) {
+      System.err.println("User choice is out of range: " + quantityString);
+      return -1;
+    }
+
+    return quantity;
   }
 }
