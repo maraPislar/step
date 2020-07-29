@@ -31,7 +31,7 @@
           <br/><br/>
 
           <label class="title" for="mood">Mood: </label>
-          <select name="mood" id="select">
+          <select name="mood" class="select">
             <option value="happy">happy</option>
             <option value="sad">sad</option>
             <option value="surprised">surprised</option>
@@ -41,20 +41,20 @@
             <option value="other">other</option>
           </select> <br><br>
 
+          <input class="submit-button" type="submit" value="Submit"/>
+        </form>
+
           <label for="quantity">Comments shown: </label>
-          <input type="number" id="select" name="quantity" min="0" max="10" value="10">
+          <input type="number" id="quantity" class="select" name="quantity" min="0" max="10" value="10">
           <br>
 
           <label for="filter">Comments filter: </label>
-          <select name="filter" id="select">
-            <option value="newest">newest</option>
-            <option value="oldest">oldest</option>
-            <option value="longest">longest</option>
-          </select>
+            <select onchange="refreshPage()" name="filter" id="filter" class="select">
+              <option value="newest">newest</option>
+              <option value="oldest">oldest</option>
+              <option value="longest">longest</option>
+            </select>
           <br><br>
-
-          <input class="submit-button" type="submit" value="Submit"/>
-        </form>
 
         <ul id="history"></ul>
       </div>
