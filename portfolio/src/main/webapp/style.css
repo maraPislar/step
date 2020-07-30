@@ -243,3 +243,9 @@
     padding: 5px;
     width: 90px;
 }
+
+#map {
+  border: thin solid black;
+  height: 500px;
+  width: 500px;
+}
