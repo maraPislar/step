@@ -133,3 +133,12 @@ function getLogin() {
       }
   });
 }
+
+/** Creates a map and adds it to the page. */
+function createMap() {
+  const map = new google.maps.Map(
+    document.getElementById('map'), {
+      center: {lat: 47.833660, lng: 25.924010},
+      zoom: 16
+    });
+}
