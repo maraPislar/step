@@ -138,7 +138,37 @@ function getLogin() {
 function createMap() {
   const map = new google.maps.Map(
     document.getElementById('map'), {
-      center: {lat: 47.833660, lng: 25.924010},
-      zoom: 16
+      center: {lat: 54.5260, lng: 15.2551},
+      zoom: 4,
+      fullscreenControl: true
     });
+  
+  var locations = [
+      {
+        position: new google.maps.LatLng(42.6883, 27.7139)
+      }, {
+        position: new google.maps.LatLng(39.0742, 21.8243)
+      }, {
+        position: new google.maps.LatLng(47.1625, 19.5033)
+      }, {
+        position: new google.maps.LatLng(41.9028, 12.4964)
+      }, {
+        position: new google.maps.LatLng(48.8566, 2.3522)        
+      }, {
+        position: new google.maps.LatLng(50.9097, 1.4044)
+      }, {
+        position: new google.maps.LatLng(47.3769, 8.5417)
+      }, {
+        position: new google.maps.LatLng(51.5074, 0.1278)
+      }, {
+        position: new google.maps.LatLng(47.833660, 25.924010)
+      }
+  ];
+
+  for (var i = 0; i < locations.length; i++) {
+    const marker = new google.maps.Marker({
+      position: locations[i].position,
+      map: map
+    });
+  }
 }
