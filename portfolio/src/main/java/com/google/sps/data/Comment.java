@@ -29,8 +29,4 @@ public final class Comment {
   public int getTextLength() {
       return (Integer) this.text.length();
   }
-
-  /*public String getFilter() {
-      return this.filter;
-  }*/
 }
