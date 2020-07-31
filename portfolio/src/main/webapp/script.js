@@ -145,23 +145,32 @@ function createMap() {
   
   var locations = [
       {
-        position: new google.maps.LatLng(42.6883, 27.7139)
+        position: new google.maps.LatLng(42.6883, 27.7139),
+        info: new google.maps.InfoWindow({content: 'Vacation in Bulgary'})
       }, {
-        position: new google.maps.LatLng(39.0742, 21.8243)
+        position: new google.maps.LatLng(39.0742, 21.8243),
+        info: new google.maps.InfoWindow({content: 'Vacation in Greece'})
       }, {
-        position: new google.maps.LatLng(47.1625, 19.5033)
+        position: new google.maps.LatLng(47.1625, 19.5033),
+        info: new google.maps.InfoWindow({content: 'Hungary, learned about their culture'})
       }, {
-        position: new google.maps.LatLng(41.9028, 12.4964)
+        position: new google.maps.LatLng(41.9028, 12.4964),
+        info: new google.maps.InfoWindow({content: 'Rome, Italy, the architecture and history are amazing'})
       }, {
-        position: new google.maps.LatLng(48.8566, 2.3522)        
+        position: new google.maps.LatLng(48.8566, 2.3522),
+        info: new google.maps.InfoWindow({content: 'Paris, France, great people, food, museums, views'})        
       }, {
-        position: new google.maps.LatLng(50.9097, 1.4044)
+        position: new google.maps.LatLng(50.9097, 1.4044),
+        info: new google.maps.InfoWindow({content: 'Southapton, United Kingdom, I study'})
       }, {
-        position: new google.maps.LatLng(47.3769, 8.5417)
+        position: new google.maps.LatLng(47.3769, 8.5417),
+        info: new google.maps.InfoWindow({content: 'Zurich, Switzerland, peaceful and some breathtaking views'})
       }, {
-        position: new google.maps.LatLng(51.5074, 0.1278)
+        position: new google.maps.LatLng(51.5074, 0.1278),
+        info: new google.maps.InfoWindow({content: 'London, United Kingdom, will come back to visit more'})
       }, {
-        position: new google.maps.LatLng(47.833660, 25.924010)
+        position: new google.maps.LatLng(47.833660, 25.924010),
+        info: new google.maps.InfoWindow({content: 'My location'})
       }
   ];
 
@@ -170,5 +179,12 @@ function createMap() {
       position: locations[i].position,
       map: map
     });
+
+    const infoWindow = locations[i].info;
+
+    marker.addListener('click', function() {
+      infoWindow.open(map, marker);
+    });
+
   }
 }
