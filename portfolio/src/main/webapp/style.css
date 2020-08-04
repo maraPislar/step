@@ -41,6 +41,7 @@
 #sub-page {
     font-family: "Lato", sans-serif;
     font-weight: 100px;
+
 }
 
 /* On the side navigation bar */
@@ -246,6 +247,14 @@
 
 #map {
   border: thin solid black;
-  height: 600px;
+  height: 800px;
   width: 900px;
+}
+
+.link-style {
+    height: 880px;
+    left: 1110px;
+    position: absolute;
+    top:0px;
+    width: 790px;
 }

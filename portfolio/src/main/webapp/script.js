@@ -146,31 +146,40 @@ function createMap() {
   var locations = [
       {
         position: new google.maps.LatLng(42.6883, 27.7139),
-        info: new google.maps.InfoWindow({content: 'Vacation in Bulgary'})
+        info: new google.maps.InfoWindow({content: 'Vacation in Bulgary'}),
+        link: 'https://en.wikipedia.org/wiki/Golden_Sands'
       }, {
         position: new google.maps.LatLng(39.0742, 21.8243),
-        info: new google.maps.InfoWindow({content: 'Vacation in Greece'})
+        info: new google.maps.InfoWindow({content: 'Vacation in Greece'}),
+        link: 'https://en.wikipedia.org/wiki/Greece'
       }, {
         position: new google.maps.LatLng(47.1625, 19.5033),
-        info: new google.maps.InfoWindow({content: 'Hungary, learned about their culture'})
+        info: new google.maps.InfoWindow({content: 'Hungary, learned about their culture'}),
+        link: 'https://en.wikipedia.org/wiki/Culture_of_Hungary'
       }, {
         position: new google.maps.LatLng(41.9028, 12.4964),
-        info: new google.maps.InfoWindow({content: 'Rome, Italy, the architecture and history are amazing'})
+        info: new google.maps.InfoWindow({content: 'Rome, Italy, the architecture and history are amazing'}),
+        link: 'https://en.wikipedia.org/wiki/Rome'
       }, {
         position: new google.maps.LatLng(48.8566, 2.3522),
-        info: new google.maps.InfoWindow({content: 'Paris, France, great people, food, museums, views'})        
+        info: new google.maps.InfoWindow({content: 'Paris, France, great people, food, museums, views'}),
+        link: 'https://en.wikipedia.org/wiki/Paris'       
       }, {
         position: new google.maps.LatLng(50.9097, 1.4044),
-        info: new google.maps.InfoWindow({content: 'Southapton, United Kingdom, I study'})
+        info: new google.maps.InfoWindow({content: 'Southapton, United Kingdom, I study'}),
+        link: 'https://en.wikipedia.org/wiki/University_of_Southampton'
       }, {
         position: new google.maps.LatLng(47.3769, 8.5417),
-        info: new google.maps.InfoWindow({content: 'Zurich, Switzerland, peaceful and some breathtaking views'})
+        info: new google.maps.InfoWindow({content: 'Zurich, Switzerland, peaceful and some breathtaking views'}),
+        link: 'https://en.wikipedia.org/wiki/Z%C3%BCrich'
       }, {
         position: new google.maps.LatLng(51.5074, 0.1278),
-        info: new google.maps.InfoWindow({content: 'London, United Kingdom, will come back to visit more'})
+        info: new google.maps.InfoWindow({content: 'London, United Kingdom, will come back to visit more'}),
+        link: 'https://en.wikipedia.org/wiki/London'
       }, {
         position: new google.maps.LatLng(47.833660, 25.924010),
-        info: new google.maps.InfoWindow({content: 'My location'})
+        info: new google.maps.InfoWindow({content: 'My location'}),
+        link: 'https://en.wikipedia.org/wiki/R%C4%83d%C4%83u%C8%9Bi'
       }
   ];
 
@@ -181,10 +190,12 @@ function createMap() {
     });
 
     const infoWindow = locations[i].info;
+    const infoLink = locations[i].link;
 
     marker.addListener('click', function() {
       infoWindow.open(map, marker);
+      document.getElementById("info").innerHTML='<object class="link-style" type="text/html" data=' +
+                                                infoLink + '></object>';
     });
-
   }
 }
