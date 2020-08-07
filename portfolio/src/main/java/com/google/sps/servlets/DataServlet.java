@@ -43,8 +43,19 @@ public final class DataServlet extends HttpServlet {
     PreparedQuery results = fetch(); 
     List<Comment> comments = toInternal(results);
     String filter = getSortingCriterion(request);
-    sort(comments, filter);
-    String json = toJson(comments);
+    int quantity = getNumberComment(request);
+    sort(comments, filter); 
+
+    if(quantity > comments.size()) {
+        quantity = comments.size();
+    }
+    
+    List<Comment> limitedComments = new ArrayList<Comment>();
+    for (int i = 0; i < quantity; i ++) {
+      limitedComments.add(comments.get(i));
+    }
+
+    String json = toJson(limitedComments);
 
     response.setContentType("application/json;");
     response.getWriter().println(json);
