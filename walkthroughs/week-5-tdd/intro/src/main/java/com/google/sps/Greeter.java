@@ -22,6 +22,18 @@ public class Greeter {
    * Returns a greeting for the given name.
    */
   public String greet(String name) {
+    name = name.trim();
+
+    for(int i = 0; i < name.length(); i ++) {
+      if("@#$%".indexOf(name.charAt(i)) >= 0) {
+        name = removeCharacter(name, i);
+        i--;
+      }
+    }
     return "Hello " + name;
+  }
+
+  public static String removeCharacter(String str, int position) {
+    return str.substring(0, position) + str.substring(position + 1);  
   }
 }

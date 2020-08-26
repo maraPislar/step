@@ -76,7 +76,9 @@ function hasSlides() {
 
 /** Fetches commenta from the server and adds them to the DOM. */
 function getComments() {
-  var url = '/data?quantity=10&filter=' + document.getElementById("filter").value;
+  /*var url = '/data?quantity=' + document.getElementById("quantity") +
+            '&filter=' + document.getElementById("filter").value;*/
+  var url = '/data?quantity=3&filter=' + document.getElementById("filter").value;
   console.log(url);
   fetch(url)
   .then(response => response.json()).then((comments) => {
